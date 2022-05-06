@@ -8,6 +8,7 @@ const random = () => {
   return numero
 }
 
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
