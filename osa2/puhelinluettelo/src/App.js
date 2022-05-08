@@ -2,6 +2,45 @@ import { useState, useEffect } from 'react'
 import personService from './services/persons'
 
 
+
+const Notification = (props) => {
+  
+
+  const messageStyle = {
+    color: 'green',
+    fontStyle: '',
+    fontSize: 34,
+    borderStyle: 'solid',
+    marginBottom: 10,
+    backgroundColor: '#D3D3D3'
+  }
+
+  const errorStyle = {
+    color: 'red',
+    fontStyle: '',
+    fontSize: 34,
+    borderStyle: 'solid',
+    marginBottom: 10,
+    backgroundColor: '#D3D3D3'
+  }
+
+  var style = messageStyle
+
+  if (props.error === true) {
+    style = errorStyle
+    }
+  
+  if (props.message === null) {
+    return null
+  }
+
+  return (
+    <div className="message" style = {style}>
+      {props.message}
+    </div>
+  )
+}
+
 const Poista = (props) => {
 return <button onClick={() => props.poista(props.person)} >delete</button>
 }
@@ -51,6 +90,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filterPersons, setFilter] = useState('')
   const [filter, setFilterBoolean] = useState(false)
+  const [error, setError] = useState(false)
+  const [message, setMessage] = useState(null)
   const setNewFilter = filter ? persons.filter(person => person.name.toLowerCase().includes(filterPersons.toLowerCase()))
   : persons
   
@@ -63,6 +104,18 @@ const App = () => {
     if (nimet.includes(newName)) {
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
         updateNumber(newPerson)
+        if(error ===true) {
+          setError(false)
+          setNewName('')
+          setNewNumber('')
+          return
+        }
+        setMessage(
+          `Number of ${newPerson.name} is now changed`
+        )
+        setTimeout(() => {
+          setMessage(null)
+        }, 3000)
       }
       setNewName('')
       setNewNumber('')
@@ -75,6 +128,12 @@ const App = () => {
       setPersons(copy.concat(response))
       setNewName('')
       setNewNumber('')
+      setMessage(
+        `${newPerson.name} was added to phonebook`
+      )
+      setTimeout(() => {
+        setMessage(null)
+      }, 3000)
     })  
   }
 
@@ -86,6 +145,21 @@ const App = () => {
       .then(response => {
         setPersons(copy)
         console.log('henkilö poistettu')
+        setMessage(
+          `${person.name} is now deleted`
+        )
+        setTimeout(() => {
+          setMessage(null)
+        }, 3000)
+      })
+      .catch(error => {
+        setError(true)
+        setMessage(`Information of ${person.name} has already been removed from server`)
+        setPersons(persons.filter(p => p.id != person.id))
+        setTimeout(() => {
+          setMessage(null)
+          setError(false)
+        }, 3000)
       })
     }
   }
@@ -96,6 +170,14 @@ const App = () => {
     personService.update(p.id, newP)
     .then(response => {
       setPersons(persons.map(person => person.name != newP.name ? person : response))
+    })
+    .catch(error => {
+      setError(true)
+      setMessage(`Information of ${p.name} has already been removed from server`)
+      setPersons(persons.filter(person => person.id != p.id))
+      setTimeout(() => {
+        setMessage(null)
+      }, 3000)
     })
   }
  
@@ -119,6 +201,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message = {message} error = {error}/>
       <Filter filterPersons = {filterPersons}  handleFilter = {handleFilter}/>
       <h2>add a new</h2>
       <PersonForm newName = {newName} 
