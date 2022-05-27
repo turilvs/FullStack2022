@@ -134,12 +134,22 @@ const App = () => {
       setTimeout(() => {
         setMessage(null)
       }, 3000)
+    })
+    .catch(error => {
+      setError(true)
+      setMessage(
+        `${error.response.data.error}`
+      )
+      setTimeout(() => {
+        setMessage(null)
+        setError(false)
+      }, 3000)
     })  
   }
 
   const poista = (person) => {
     if (window.confirm(`Delete ${person.name}`)) {
-      const copy = persons.filter(p => p.id != person.id);
+      const copy = persons.filter(p => p.id !== person.id);
       personService
       .poista(person.id)
       .then(response => {
@@ -155,7 +165,7 @@ const App = () => {
       .catch(error => {
         setError(true)
         setMessage(`Information of ${person.name} has already been removed from server`)
-        setPersons(persons.filter(p => p.id != person.id))
+        setPersons(persons.filter(p => p.id !== person.id))
         setTimeout(() => {
           setMessage(null)
           setError(false)
@@ -169,12 +179,12 @@ const App = () => {
     const newP = {...p, name : p.name, number: newPerson.number}
     personService.update(p.id, newP)
     .then(response => {
-      setPersons(persons.map(person => person.name != newP.name ? person : response))
+      setPersons(persons.map(person => person.name !== newP.name ? person : response))
     })
     .catch(error => {
       setError(true)
       setMessage(`Information of ${p.name} has already been removed from server`)
-      setPersons(persons.filter(person => person.id != p.id))
+      setPersons(persons.filter(person => person.id !== p.id))
       setTimeout(() => {
         setMessage(null)
       }, 3000)
