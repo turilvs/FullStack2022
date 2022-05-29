@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "jest --verbose"
   },
   "author": "Artturi Rantala",
   "license": "ISC",
@@ -16,6 +16,11 @@
     "mongoose": "^6.3.4"
   },
   "devDependencies": {
+    "jest": "^28.1.0",
     "nodemon": "^2.0.16"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
+  
 }
