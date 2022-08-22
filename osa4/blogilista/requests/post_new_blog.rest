@@ -1,9 +1,11 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InR1cmlsYXMiLCJpZCI6IjYyZjllNmQyYmQ2NzMwMTc4YWM1ZTEyNiIsImlhdCI6MTY2MDYzODI4NywiZXhwIjoxNjYwNjQxODg3fQ.ESJIZPOV45KajEIDy4gG9QuJpXUeex1gQZz3oMp7Bc4
 
 {
-    "title": "Ensimmäinen blogi",
+    "title": "kolmas salainen blogi",
     "author": "Arthur Rantala",
     "url": "http://artsinBlogi.com",
-    "likes": 12
+    "likes": 900,
+    "user": "turilas"
 }
