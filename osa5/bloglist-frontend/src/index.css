@@ -1,0 +1,33 @@
+.error,
+.message {
+  background: rgb(235, 225, 225);
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.error {
+    color: rgb(255, 0, 0);
+  }
+
+.message {
+  color: rgb(0, 224, 0);
+}
+
+em {
+  font-style:normal;
+}
+
+.blog {
+  border: 2px solid rgb(0, 0, 0);
+  padding: 10px 4px;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  border-radius: 6px;
+}
+
+.delete-btn {
+  background: rgb(252, 0, 0);
+}
