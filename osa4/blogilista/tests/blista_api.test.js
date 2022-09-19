@@ -198,7 +198,6 @@ describe('deletion of a blog', () => {
     
     const blogsAtStart = await Blog.find({}).populate("user");
     const blogToDelete = blogsAtStart[0]
-    console.log(blogsAtStart)
 
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)

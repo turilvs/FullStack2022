@@ -47,8 +47,6 @@ blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) =
     if (blog === undefined || blog === null) {
       return response.status(400).json({ error: 'blog not found' })
     }
-    console.log('blogin kirjoittaja', blog.user.toString())
-    console.log('poistava kayttaja', userid)
 
     if (blog.user.toString() === userid) {
       
