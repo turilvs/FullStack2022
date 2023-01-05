@@ -1,3 +1,6 @@
+import { createSlice } from '@reduxjs/toolkit'
+
+
 const anecdotesAtStart = [
     'If it hurts, do it more often',
     'Adding manpower to a late software project makes it later!',
@@ -6,43 +9,35 @@ const anecdotesAtStart = [
     'Premature optimization is the root of all evil.',
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
   ]
-  
-  const getId = () => (100000 * Math.random()).toFixed(0)
-  
-  const asObject = (anecdote) => {
-    return {
-      content: anecdote,
-      id: getId(),
-      votes: 0
-    }
-  }
 
-  export const createAnecdote = (content) => {
-    return {
-      type: 'NEW_ANECDOTE',
-      data: {
-        content,
-        id: getId(),
-        votes: 0
-      }
-    }
-  }
 
-  export const voteAnecdote = (id) => {
-    console.log('vote', id)
-    return {
-      type: 'VOTE',
-      data: { id }
-    }
-  }
+const getId = () => (100000 * Math.random()).toFixed(0)
 
+const asObject = (anecdote) => {
+  return {
+    content: anecdote,
+    id: getId(),
+    votes: 0
+  }
+}
   const initialState = anecdotesAtStart.map(asObject)
-  
-  const reducer = (state = initialState, action) => {
-    console.log('action', action)
-    switch(action.type) {
-      case 'VOTE':
-        const id = action.data.id
+
+  const anecdoteSlice = createSlice({
+    name: 'anecdotes',
+    initialState,
+    reducers: {
+      createAnecdote(state, action) {
+        console.log(action)
+        const content = action.payload
+        state.push({
+          content,
+          votes: 0,
+          id: getId(),
+        })
+      },
+      voteAnecdote(state, action) {
+        console.log(action)
+        const id = action.payload
         const anecdoteToVote = state.find(a => a.id === id)
         const votedAnectode = { 
           ...anecdoteToVote, 
@@ -50,12 +45,10 @@ const anecdotesAtStart = [
         }
         
         return state.map(anecdote =>
-          anecdote.id !== action.data.id ? anecdote : votedAnectode);
-
-      case 'NEW_ANECDOTE':
-        return state.concat(action.data)
-
-      default: return state
+          anecdote.id !== action.payload ? anecdote : votedAnectode)
       }
-    }
-  export default reducer
+    },
+  })
+  
+  export const { createAnecdote, voteAnecdote } = anecdoteSlice.actions
+  export default anecdoteSlice.reducer
