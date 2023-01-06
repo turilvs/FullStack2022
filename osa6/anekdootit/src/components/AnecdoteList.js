@@ -3,6 +3,7 @@ import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { createNotification } from '../reducers/notificationReducer'
 
 
+
 const Anecdote = ({ anecdote, handleClick }) => {
     return(
         <div >
@@ -17,9 +18,10 @@ const Anecdote = ({ anecdote, handleClick }) => {
     )
 }
 
-
 const Anecdotes = () => {
+  
     const dispatch = useDispatch()
+
     const anecdotes = useSelector(state => state.anecdotes)
     const filter = useSelector(state => state.filter)
 
@@ -34,7 +36,7 @@ const Anecdotes = () => {
             key={anecdote.id}
             anecdote={anecdote}
             handleClick={() => {
-              dispatch(voteAnecdote(anecdote.id))
+              dispatch(voteAnecdote(anecdote))
               dispatch(createNotification("you voted for '" + anecdote.content + "'"))
             }
             }
